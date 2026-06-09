@@ -1,24 +1,45 @@
-# Final project for the Building AI course "あるコモディティ商品の自社商品の適正価格予測"
+# EcoGarden-AI: Inventory-Linked Personalized Plant Recommendation System
 
 ## Summary
-This project aims to automate and optimize the pricing process for a high-volume commodity product line. By leveraging machine learning models, the system analyzes market competitor prices and product specifications to predict the optimal, competitive price for each individual SKU, significantly reducing manual labor.
+EcoGarden-AI is a data-driven retail solution that connects a customer's specific garden environment with a garden center's live inventory system. By utilizing geospatial data analysis and advanced recommendation algorithms, the system suggests the perfect plants that are guaranteed to thrive in the customer's yard *and* are currently available on the store shelves, maximizing retail sales while eliminating plant care failures.
 
 ## Background
-In the commodity product market, companies face intense price competition and an overwhelming number of Stock Keeping Units (SKUs). 
-* **The SKU Explosion:** Both the overall industry and our own company deal with a massive variety of SKUs, making manual market tracking nearly impossible.
-* **Time-Consuming Labor:** Pricing each SKU manually based on competitor movements requires an extraordinary amount of time and human resources.
-* **The Need for Automation:** To remain competitive and agile, there is a critical need to streamline this process, allowing the team to focus on strategic decisions rather than repetitive data entry.
+The gardening and retail nursery industry suffers from a unique misalignment between customer desires and store inventory management, leading to significant pain points for both sides.
+
+### 🔴 The Buyer's Pain Points (Customers)
+* **The "Intention vs. Reality" Gap:** Beginners often buy plants based purely on their beautiful appearance at the store, only to have them wither within weeks because the plant was unsuited for their yard's specific sunlight, soil, or winter climate.
+* **Overwhelming Choices & Seasonality:** Customers rarely know *when* and *where* to plant. Buying a frost-sensitive plant in late autumn leads to immediate failure and frustration, causing them to give up gardening altogether.
+
+### 🔴 The Seller's Pain Points (Garden Centers)
+* **High Perishable Waste (Shrinkage):** Live plants are highly perishable. Missing the peak sales window or overstocking results in massive plant disposal costs and direct profit loss.
+* **Low Customer Lifetime Value (LTV):** When customers fail to keep their plants alive, they lose confidence, stop purchasing, and rarely return to the store.
+* **Staff Dependency:** Providing high-quality, expert advice for hundreds of plant varieties requires highly trained staff, which is increasingly difficult due to labor shortages.
+
+---
 
 ## How is it used?
-The solution will be integrated into the product management workflow. 
-1. **Data Sync:** The system periodically references competitor price data and internal product specs.
-2. **AI Inference:** The regression/neural network model runs to calculate the recommended price for each SKU.
-3. **Review & Deploy:** The product management team reviews the suggestions via a simple dashboard and approves the new prices for the e-commerce platform or sales system.
+EcoGarden-AI creates a seamless bridge between the customer's home and the garden center's retail floor.
+
+### 📱 User Experience (The Buyer)
+1. **Garden Mapping:** The customer drops a pin on Google Maps to register their yard's coordinates and logs currently owned plants on a simple grid layout.
+2. **Instant Environmental Assessment:** The AI automatically fetches local climate zones, historical sunlight hours, and seasonal data.
+3. **In-Store Scanning:** At the garden center, the user scans a plant's barcode or takes a photo. The AI instantly calculates a "Match Score" based on their yard's compatibility and tells them exactly *where* to plant it.
+
+### 📈 Retail Operations (The Seller)
+1. **Dynamic Stock Promotion:** The AI recommendation engine automatically applies a "boost weight" to overstocked or high-margin items that match the customer's yard profile.
+2. **Proactive Demand Forecasting:** Aggregated anonymous data from local yards allows store managers to predict upcoming seasonal demands (e.g., a high demand for shade-loving plants in a specific neighborhood) and optimize procurement.
 
 ```python
-def predict_optimal_price(competitor_avg, inventory_level, historical_demand):
-    # This is a conceptual placeholder for the pricing regression model
-    base_price = competitor_avg * 0.95
-    if inventory_level > 500:
-        return base_price * 0.90  # Discount to clear high inventory
-    return base_price
+def calculate_recommendation_score(plant_profile, yard_profile, inventory_status):
+    # Base compatibility calculated from sunlight, climate zone, and season
+    base_compatibility = evaluate_compatibility(plant_profile, yard_profile)
+    
+    # B2B Booster: Increase ranking if the garden center has high stock levels
+    if inventory_status['stock_level'] > 100:
+        inventory_booster = 1.2  # 20% boost to clear overstock
+    elif inventory_status['is_high_margin']:
+        inventory_booster = 1.15 # 15% boost for high-profit items
+    else:
+        inventory_booster = 1.0
+        
+    return base_compatibility * inventory_booster
