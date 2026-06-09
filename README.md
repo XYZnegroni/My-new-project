@@ -43,6 +43,7 @@ def calculate_recommendation_score(plant_profile, yard_profile, inventory_status
         inventory_booster = 1.0
         
     return base_compatibility * inventory_booster
+```
 
 ## Data sources and AI methods
 To achieve high-precision recommendations and automated business logic, EcoGarden-AI utilizes a multimodal data pipeline:
