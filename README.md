@@ -43,3 +43,33 @@ def calculate_recommendation_score(plant_profile, yard_profile, inventory_status
         inventory_booster = 1.0
         
     return base_compatibility * inventory_booster
+
+## Data sources and AI methods
+To achieve high-precision recommendations and automated business logic, EcoGarden-AI utilizes a multimodal data pipeline:
+
+* **Geospatial & Climate Data:** Hardiness zones, local frost dates, and structural shade modeling retrieved via Google Maps API and regional meteorological databases.
+* **Live POS/ERP Inventory Data:** Real-time stock levels and profit margins synced from the garden center's inventory management system (initially prototyped using structured data stored on Google Drive).
+* **AI Methods:**
+  * **Computer Vision (CNN):** Image classification to instantly recognize plant species from smartphone photos in the store.
+  * **Collaborative Filtering & Knowledge Graphs:** Relational mapping to recommend plant combinations (companion planting) based on what is already growing in the user's garden.
+  * **Weighted Recommendation Algorithms:** Linear and logistic scoring functions to balance ecological fit with business profit margins.
+
+| Data Input | Processing Layer | Output Action |
+| ----------- | ----------- | ----------- |
+| GPS / Satellite Images | Climate Data Extraction | Filters out plants that won't survive the winter |
+| Live POS Stock Data | Business Weight Injection | Promotes overstocked items in the user's feed |
+| User's Current Garden Map | Knowledge Graph Matching | Suggests companion plants (e.g., underplanting) |
+
+## Challenges
+* **The "Black Box" of Soil Quality:** While climate and sunlight can be estimated remotely, soil pH and drainage require manual input or sensor data for 100% accuracy.
+* **Overfitting to Overstock:** If the algorithm prioritizes overstocked items too aggressively, it may compromise the ecological match score, leading to plant failure and breaking user trust. The balance must be carefully fine-tuned.
+* **Perishable Data Delays:** Garden center inventory shifts rapidly. Delays in data syncing could result in recommending an item that just sold out minutes prior.
+
+## What next?
+* **Direct E-Commerce Integration:** Allow users to click "Buy & Reserve for Pickup" directly from their automated seasonal garden plan.
+* **Smart Alert Notifications:** Push notification systems reminding users when to water, fertilize, or prune based on their live garden log, triggering consistent repeat visits to the partner garden center.
+* **MLOps Migration:** Move from the Google Drive prototype to an automated, low-latency cloud infrastructure (AWS/GCP) to support real-time inventory synchronization across multi-store retail chains.
+
+## Acknowledgments
+* Inspired by the pragmatic art of machine learning and the customer data model of the **K-Ruoka web store** case in the Elements of AI course.
+* Built using Python, `scikit-learn` for predictive scoring, and Open-Source Computer Vision libraries.
